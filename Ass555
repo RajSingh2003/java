@@ -1,0 +1,187 @@
+import java.awt.*;
+import java.awt.event.*;
+
+class MyFrame extends Frame
+{
+      TextField t,t1;
+      Label l,l1;
+      int x,y;
+      Panel p;
+      MyFrame(String title)
+      {
+            super(title);
+            setLayout(new FlowLayout());
+            p=new Panel();
+            p.setLayout(new GridLayout(2,2,5,5));
+            t=new TextField(20);
+            l=new Label("Co-ordinates of clicking");
+            l1=new Label("Co-ordinates of movement");
+            t1=new TextField(20);
+            p.add(l);
+            p.add(t);
+            p.add(l1);
+            p.add(t1);
+            add(p);
+            addMouseListener(new MyClick());
+            addMouseMotionListener(new MyMove());
+            addWindowListener(new WindowAdapter()
+            {
+                 public void windowClosing(WindowEvent we)
+       	        {
+       		      System.exit(0);
+       	         }
+       	    }
+            );
+            setSize(500,500);
+            //setDefaultCloseOperation(Frame.EXIT_ON_CLOSE);
+            setVisible(true);
+       }
+       
+       class MyClick extends MouseAdapter
+       {
+            public void mouseClicked(MouseEvent me)
+            {
+                  x=me.getX();
+                  y=me.getY();
+                  t.setText("X="+x+"Y="+y);
+            }
+       }
+       
+       class MyMove extends MouseMotionAdapter
+       {
+            public void mouseMoved(MouseEvent me)
+            {
+                  x=me.getX();
+                  y=me.getY();
+                  t1.setText("X="+x+"Y="+y);
+            }
+       }
+}
+
+
+class main
+{
+       public static void main(String args[])
+       {
+              MyFrame f=new MyFrame("Mouse Events");
+       }
+}
+
+ass 5 a2
+
+
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+class InvalidPasswordException extends Exception
+{
+      InvalidPasswordException()
+      {
+            System.out.println("Username and password is not same");
+      }
+}
+
+public class Password extends Frame implements ActionListener
+{
+      Label uname,upass;
+      TextField nametext;
+      TextField passtext,msg;
+      Button login,Clear;
+      Panel p;
+      int attempt=0;
+      char c='*';
+      
+      public void login()
+      {
+           p=new Panel();
+           uname=new Label("Username : ",Label.CENTER);
+           upass=new Label("Password : ",Label.RIGHT);
+           nametext=new TextField(20);
+           passtext=new TextField(20);
+           passtext.setEditable(true);
+           passtext.setEchoChar(c);
+           msg=new TextField(10);
+           msg.setEditable(false);
+           login=new Button("Login");
+           Clear=new Button("Clear");
+           login.addActionListener(this);
+           Clear.addActionListener(this);
+                  addWindowListener(new WindowAdapter()
+            {
+                 public void windowClosing(WindowEvent we)
+       	        {
+       		      System.exit(0);
+       	         }
+       	    }
+            );
+           p.add(uname);
+           p.add(nametext);
+           p.add(upass);
+           p.add(passtext);
+           p.add(login);
+           p.add(Clear);
+           p.add(msg);
+           add(p);
+           
+           setTitle("Login");
+           setSize(290,200);
+           setVisible(true);
+           setTitle("Password");
+           setSize(290,200);
+           setVisible(true);
+      }
+      
+      public void actionPerformed(ActionEvent ae)
+      {
+           Button btn=(Button)(ae.getSource());
+           if(attempt<2)
+           {
+                if(btn == Clear)
+                {
+                      nametext.setText("");
+                      passtext.setText("");
+                }
+                if((btn.getLabel()).equals("Login"))
+                {
+                     try
+                     {
+                            String user=nametext.getText();
+                            String upass=passtext.getText();
+                            
+                            if(user.compareTo(upass)==0)
+                            {
+                                  msg.setText("Valid");
+                                  System.out.println("Username is valid");
+                                  System.exit(0);
+                            }
+                            else
+                            {
+                                  throw new InvalidPasswordException();
+                            }
+                     }
+                     catch (Exception e)
+                     {
+                           msg.setText("Error");
+                     }
+                     attempt++;
+                 }
+            }
+            else
+            {
+                   System.out.println("Youm are using 3 attempt");
+                   System.exit(0);
+            }
+}
+
+    public static void main(String args[])
+    {
+          Password pd=new Password();
+          pd.login();
+    }
+}
+
+
+ass 5 b2
+
